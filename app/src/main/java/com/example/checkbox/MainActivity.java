@@ -1,12 +1,17 @@
 package com.example.checkbox;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,10 +22,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     CheckBox checkBox;
-
     RadioGroup radioGroup;
     Spinner spinner;
-
+    TimePicker timePicker;
+    DatePicker datePicker;
+    Button datePickerBtn,progressBarBtn;
+    ProgressBar progressBar;
+    int progress = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +83,49 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+
+        timePicker = findViewById(R.id.timePicker);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                // Handle Time Change
+                Toast.makeText(
+                        MainActivity.this,
+                        "Hour: "+ hourOfDay +" minute: "+minute,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        datePicker = findViewById(R.id.datePicker);
+        datePickerBtn = findViewById(R.id.date_picker_btn);
+
+        datePickerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String day = "Day "+ datePicker.getDayOfMonth();
+                String month = "Month" + (datePicker.getMonth() +1);
+                String year = "Year "+ datePicker.getYear();
+                Toast.makeText(
+                        MainActivity.this,
+                        day + " " + month + " "+ year,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        progressBar = findViewById(R.id.progress_circular);
+        progressBarBtn = findViewById(R.id.progress_circular_btn);
+
+        progressBarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress = progress +10;
+                progressBar.setProgress(progress);
+                Toast.makeText(
+                        MainActivity.this,
+                        "The Progress "+ progress,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
